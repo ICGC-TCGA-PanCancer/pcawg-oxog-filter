@@ -1,2 +1,2 @@
 # pcawg-oxog-filter
-The CWL workflow to execute the OxoG filter.
+The CWL workflow to execute the OxoG filter _only_.
