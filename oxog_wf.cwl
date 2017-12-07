@@ -14,8 +14,8 @@ requirements:
     - class: StepInputExpressionRequirement
     - class: MultipleInputFeatureRequirement
     - class: InlineJavascriptRequirement
-    #   expressionLib:
-    #     - { $include: oxog_util.js }
+      expressionLib:
+        - { $include: oxog_util.js }
     - class: SubworkflowFeatureRequirement
 
 
