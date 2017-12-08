@@ -3,10 +3,6 @@
         "path": "/media/sshorser/data/oxog_ref_data/full_refdata/public/Homo_sapiens_assembly19.fasta",
         "class": "File"
     },
-    "normalBam": {
-        "path": "/media/sshorser/Data/oxog_test_data_2/DO52739/6a40a6df68474d9357bacc988ea3e30e.bam",
-        "class": "File"
-    },
     "tumours":
     [
         {
@@ -47,7 +43,6 @@
             "oxoQScore":45.65
         }
     ],
-    "oxoQScore": "10.3",
     "out_dir": "/var/spool/cwl/",
     "inputFileDirectory": {
         "class":"Directory",

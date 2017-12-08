@@ -31,8 +31,6 @@ inputs:
       type: File
     out_dir:
       type: string
-    normalBam:
-      type: File
     refDataDir:
       type: Directory
     # "tumours" is an array of records. Each record contains the tumour ID, BAM
