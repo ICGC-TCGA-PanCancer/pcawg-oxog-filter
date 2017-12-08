@@ -185,98 +185,94 @@ steps:
     # Gather SNVs on a per-workflow basis
     #############################################
 
-    gather_sanger_snvs:
-      in:
-        clean_vcfs:
-            source: gather_clean_vcfs/all_cleaned_vcfs
-        extracted_snvs:
-            source: null_filter_extracted_snvs/cleaned_extracted_snvs
-      out: [snvs_for_merge]
-      run:
-        class: ExpressionTool
-        inputs:
-          clean_vcfs: File[]
-          extracted_snvs: File[]
-        outputs:
-          snvs_for_merge: File[]
-        expression: |
-            $({
-                snvs_for_merge: ( (filterFor("svcp","snv_mnv",inputs.clean_vcfs)).concat(filterFor("svcp","snv_mnv",inputs.extracted_snvs)) )
-            })
-
-    gather_dkfz_embl_snvs:
-      in:
-        clean_vcfs:
-            source: gather_clean_vcfs/all_cleaned_vcfs
-        extracted_snvs:
-            source: null_filter_extracted_snvs/cleaned_extracted_snvs
-      out: [snvs_for_merge]
-      run:
-        class: ExpressionTool
-        inputs:
-          clean_vcfs: File[]
-          extracted_snvs: File[]
-        outputs:
-          snvs_for_merge: File[]
-        expression: |
-            $({
-                snvs_for_merge: ( (filterFor("dkfz-snvCalling","snv_mnv",inputs.clean_vcfs)).concat(filterFor("dkfz-snvCalling","snv_mnv",inputs.extracted_snvs)) )
-            })
-
-    gather_broad_snvs:
-      in:
-        clean_vcfs:
-            source: gather_clean_vcfs/all_cleaned_vcfs
-        extracted_snvs:
-            source: null_filter_extracted_snvs/cleaned_extracted_snvs
-      out: [snvs_for_merge]
-      run:
-        class: ExpressionTool
-        inputs:
-          clean_vcfs: File[]
-          extracted_snvs: File[]
-        outputs:
-          snvs_for_merge: File[]
-        expression: |
-            $({
-                snvs_for_merge: ( (filterFor("broad-mutect","snv_mnv",inputs.clean_vcfs)).concat(filterFor("broad-mutect","snv_mnv",inputs.extracted_snvs)) )
-            })
-
-    gather_muse_snvs:
-      in:
-        clean_vcfs:
-            source: gather_clean_vcfs/all_cleaned_vcfs
-        extracted_snvs:
-            # MUSE INDELs will not be provided so there will *never* be any extracted SNVs for MUSE.
-            source: null_filter_extracted_snvs/cleaned_extracted_snvs
-      out: [snvs_for_merge]
-      run:
-        class: ExpressionTool
-        inputs:
-          clean_vcfs: File[]
-          extracted_snvs: File[]
-        outputs:
-          snvs_for_merge: File[]
-        expression: |
-            $({
-                snvs_for_merge: ( filterFor("MUSE","snv_mnv",inputs.clean_vcfs)).concat(filterFor("MUSE","snv_mnv",inputs.extracted_snvs))
-            })
+    # gather_sanger_snvs:
+    #   in:
+    #     clean_vcfs:
+    #         source: gather_clean_vcfs/all_cleaned_vcfs
+    #     extracted_snvs:
+    #         source: null_filter_extracted_snvs/cleaned_extracted_snvs
+    #   out: [output_snvs]
+    #   run:
+    #     class: ExpressionTool
+    #     inputs:
+    #       clean_vcfs: File[]
+    #       extracted_snvs: File[]
+    #     outputs:
+    #       output_snvs: File[]
+    #     expression: |
+    #         $({
+    #             output_snvs: ( (filterFor("svcp","snv_mnv",inputs.clean_vcfs)).concat(filterFor("svcp","snv_mnv",inputs.extracted_snvs)) )
+    #         })
+    #
+    # gather_dkfz_embl_snvs:
+    #   in:
+    #     clean_vcfs:
+    #         source: gather_clean_vcfs/all_cleaned_vcfs
+    #     extracted_snvs:
+    #         source: null_filter_extracted_snvs/cleaned_extracted_snvs
+    #   out: [output_snvs]
+    #   run:
+    #     class: ExpressionTool
+    #     inputs:
+    #       clean_vcfs: File[]
+    #       extracted_snvs: File[]
+    #     outputs:
+    #       output_snvs: File[]
+    #     expression: |
+    #         $({
+    #             output_snvs: ( (filterFor("dkfz-snvCalling","snv_mnv",inputs.clean_vcfs)).concat(filterFor("dkfz-snvCalling","snv_mnv",inputs.extracted_snvs)) )
+    #         })
+    #
+    # gather_broad_snvs:
+    #   in:
+    #     clean_vcfs:
+    #         source: gather_clean_vcfs/all_cleaned_vcfs
+    #     extracted_snvs:
+    #         source: null_filter_extracted_snvs/cleaned_extracted_snvs
+    #   out: [output_snvs]
+    #   run:
+    #     class: ExpressionTool
+    #     inputs:
+    #       clean_vcfs: File[]
+    #       extracted_snvs: File[]
+    #     outputs:
+    #       output_snvs: File[]
+    #     expression: |
+    #         $({
+    #             output_snvs: ( (filterFor("broad-mutect","snv_mnv",inputs.clean_vcfs)).concat(filterFor("broad-mutect","snv_mnv",inputs.extracted_snvs)) )
+    #         })
+    #
+    # gather_muse_snvs:
+    #   in:
+    #     clean_vcfs:
+    #         source: gather_clean_vcfs/all_cleaned_vcfs
+    #     extracted_snvs:
+    #         # MUSE INDELs will not be provided so there will *never* be any extracted SNVs for MUSE.
+    #         source: null_filter_extracted_snvs/cleaned_extracted_snvs
+    #   out: [output_snvs]
+    #   run:
+    #     class: ExpressionTool
+    #     inputs:
+    #       clean_vcfs: File[]
+    #       extracted_snvs: File[]
+    #     outputs:
+    #       output_snvs: File[]
+    #     expression: |
+    #         $({
+    #             output_snvs: ( filterFor("MUSE","snv_mnv",inputs.clean_vcfs)).concat(filterFor("MUSE","snv_mnv",inputs.extracted_snvs))
+    #         })
 
 
     populate_output_record:
         in:
-            # mergedVcfs : merge_vcfs/output
             extractedSnvs : null_filter_extracted_snvs/cleaned_extracted_snvs
-            # normalizedVcfs: normalize/normalized-vcf
             cleanedVcfs: gather_clean_vcfs/all_cleaned_vcfs
         out:
             [output_record]
         run:
             class: ExpressionTool
             inputs:
-                # mergedVcfs: File[]
                 extractedSnvs: File[]?
-                # normalizedVcfs: File[]
                 cleanedVcfs: File[]
             outputs:
               output_record: "PreprocessedFilesType.yaml#PreprocessedFileset"
@@ -284,8 +280,6 @@ steps:
                     $(
                         {output_record: {
                             "cleanedVcfs": inputs.cleanedVcfs,
-                            // "mergedVcfs": inputs.mergedVcfs,
-                            // "normalizedVcfs": inputs.normalizedVcfs,
                             "extractedSnvs": inputs.extractedSnvs
                         }}
                     )
