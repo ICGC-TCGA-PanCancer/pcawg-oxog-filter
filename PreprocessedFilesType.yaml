@@ -6,6 +6,6 @@ fields:
     - name: normalizedVcfs
       type: File[]?
     - name: extractedSnvs
-      type: File[]
+      type: File[]?
     - name: cleanedVcfs
-      type: File[]
+      type: File[]?
