@@ -24,6 +24,9 @@ outputs:
     oxogVCFs:
         outputSource: flatten_oxog_output/oxogVCFs
         type: File[]
+    oxogTBIs:
+        outputSource: flatten_oxog_tbi_output/oxogTBIs
+        type: File[]
 inputs:
     inputFileDirectory:
       type: Directory
@@ -147,7 +150,7 @@ steps:
             inputFileDirectory: inputFileDirectory
             refDataDir: refDataDir
             vcfsForOxoG: gather_vcfs_for_oxog/vcfs
-        out: [oxogVCF]
+        out: [oxogVCF, oxogTBI]
         scatter: [in_data]
         run: oxog_sub_wf.cwl
 
@@ -168,10 +171,9 @@ steps:
         out:
             [oxogVCFs]
 
-
-    flatten_oxog_output:
+    flatten_oxog_tbi_output:
         in:
-            array_of_arrays: run_oxog/oxogVCF
+            array_of_arrays: run_oxog/oxogTBI
         run:
             class: ExpressionTool
             inputs:
@@ -179,9 +181,9 @@ steps:
                     type: { type: array, items: { type: array, items: File } }
             expression: |
                 $(
-                    { oxogVCFs: flatten_nested_arrays(inputs.array_of_arrays) }
+                    { oxogTBIs: flatten_nested_arrays(inputs.array_of_arrays) }
                 )
             outputs:
-                oxogVCFs: File[]
+                oxogTBIs: File[]
         out:
-            [oxogVCFs]
+            [oxogTBIs]

@@ -23,6 +23,9 @@ outputs:
     oxogVCF:
         outputSource: sub_run_oxog/oxogVCF
         type: File[]
+    oxogTBI:
+        outputSource: sub_run_oxog/oxogTBI
+        type: File[]
 inputs:
     vcfsForOxoG:
         type: File[]
@@ -63,4 +66,4 @@ steps:
                     ${
                         return createArrayOfFilesForOxoG(self[0], self[1])
                     }
-        out: [oxogVCF]
+        out: [oxogVCF, oxogTBI]
