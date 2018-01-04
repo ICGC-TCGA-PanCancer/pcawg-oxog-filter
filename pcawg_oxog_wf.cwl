@@ -2,8 +2,7 @@
 cwlVersion: v1.0
 
 doc: |
-    This is a subworkflow of the main oxog_varbam_annotat_wf workflow - this is
-    not meant to be run as a stand-alone workflow!
+    This workflow will perform OxoG filtering on a set of VCFs. It will produce VCFs and their associated index files.
 
 requirements:
     - class: SchemaDefRequirement
